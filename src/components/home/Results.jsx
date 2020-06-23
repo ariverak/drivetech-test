@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import { Favorite } from '@material-ui/icons'
 import Lightbox from 'react-image-lightbox';
 import { LazyLoadImage, trackWindowScroll } from 'react-lazy-load-image-component';
-
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -22,10 +24,24 @@ const useStyles = makeStyles(theme => ({
             }
         }
     },
-    lightboxContainer: {
+    imagesContainer: {
         display: 'flex',
         justifyContent: 'center',
         flexWrap: 'wrap'
+    },
+    infoCard: {
+        zIndex: 3000,
+        position: 'absolute',
+        bottom: 25,
+        left: '10%',
+        minWidth: 275
+    },
+    likes: {
+        height: 50,
+        '& svg': {
+            color: 'red',
+            marginRight: 10
+        }
     }
 }))
 
@@ -57,7 +73,7 @@ function Results({ photos, nextPage, scrollPosition }){
 	return (
         <div className={classes.root}>
             {photos && (
-                <div className={classes.lightboxContainer}>
+                <div className={classes.imagesContainer}>
                     {
                         photos.map((photo,i)=>(
                             <LazyLoadImage
@@ -78,7 +94,15 @@ function Results({ photos, nextPage, scrollPosition }){
                     nextSrc={photos[(photoIndex + 1) % photos.length].urls.regular}
                     prevSrc={photos[(photoIndex + photos.length - 1) % photos.length].urls.regular}
                     onCloseRequest={() => setIsOpen(false)}
-                    
+                    imageTitle={
+                        <Grid className={classes.likes} container alignItems="center">
+                            <Favorite />
+                            <Typography variant="h5">
+                                {photos[photoIndex].likes}
+                            </Typography>
+                        </Grid>
+                    }
+                    imageCaption={photos[photoIndex].alt_description}
                     onMovePrevRequest={() => 
                         setPhotoIndex((photoIndex + photos.length - 1) % photos.length)
                     }
