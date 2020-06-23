@@ -1,2 +1,3 @@
 
 export const GET_ALL_PHOTOS = 'GET_ALL_PHOTOS';
+export const TOGGLE_THEME_MODE = 'TOGGLE_THEME_MODE';

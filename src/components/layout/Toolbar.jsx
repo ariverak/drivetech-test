@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { 
 	AppBar,
 	Toolbar as MuiToolbar,
@@ -6,6 +6,8 @@ import {
 	Switch
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleThemeMode } from 'store/actions/ui'
 
 const useStyles = makeStyles(theme => ({
 	toolbar: {
@@ -23,6 +25,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function Toolbar(){
     const classes = useStyles();
+    const { ui } = useSelector(state=>state.ui);
+    const dispatch = useDispatch();
+    const isDark = useMemo(()=>ui.mode === 'dark',[ui.mode])
+
+    function switchMode(){
+        dispatch(toggleThemeMode())
+    }
+
     return (
         <AppBar>
             <MuiToolbar className={classes.toolbar}>
@@ -31,11 +41,11 @@ export default function Toolbar(){
                 </Typography>
                 <div className={classes.switchContainer}>
                     <Typography variant="caption">
-                        DARK
-                    </Typography>
-                    <Switch name="gilad" />
-                    <Typography variant="caption">
                         LIGHT
+                    </Typography>
+                    <Switch checked={isDark} onChange={switchMode} />
+                    <Typography  variant="caption">
+                        DARK
                     </Typography>
                 </div>
             </MuiToolbar>
