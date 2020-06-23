@@ -50,8 +50,11 @@ export default function Home(){
 	},[ dispatch, searchTextDebounsed ])
 
 	const nextPage = () => {
-		setCurrentPage(currentPage + 1)
-		return dispatch(getMorePhotos(searchTextDebounsed, currentPage + 1))
+		return new Promise(async resolve => {
+			setCurrentPage(currentPage + 1)
+			await dispatch(getMorePhotos(searchTextDebounsed, currentPage + 1))
+			resolve()
+		})
 	}
 
 	return (

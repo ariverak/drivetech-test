@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Lightbox from 'react-image-lightbox';
 import { LazyLoadImage, trackWindowScroll } from 'react-lazy-load-image-component';
@@ -34,6 +34,13 @@ function Results({ photos, nextPage, scrollPosition }){
     const [ isOpen, setIsOpen ] = useState(false)
     const [ photoIndex, setPhotoIndex ] = useState(0)
 
+    useEffect(()=>{
+        let next = typeof photos[photoIndex + 1] !== 'undefined';
+        if(!next) return setPhotoIndex(0)
+        setPhotoIndex(photoIndex + 1)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[photos])
+
     const onImageClick = (index) => {
         setPhotoIndex(index)
         setIsOpen(true)
@@ -42,9 +49,6 @@ function Results({ photos, nextPage, scrollPosition }){
     async function onNextPhoto(){
         if(photoIndex === (photos.length - 1)){
             await nextPage()
-            let next = typeof photos[photoIndex + 1] !== 'undefined';
-            if(!next) return setPhotoIndex(0)
-            setPhotoIndex(photoIndex + 1)
         }else{
             setPhotoIndex((photoIndex + 1) % photos.length)
         }
