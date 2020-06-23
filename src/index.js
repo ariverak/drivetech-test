@@ -6,6 +6,7 @@ import store from 'store';
 import AppTheme from "theme";
 import * as serviceWorker from './serviceWorker';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import 'react-image-lightbox/style.css'; 
 import './index.css';
 
 ReactDOM.render(

@@ -23,7 +23,7 @@ export function getMorePhotos(query,page) {
                 page
             }
         })
-        dispatch({
+        return dispatch({
             type: GET_MORE_PHOTOS,
             payload: data
         });

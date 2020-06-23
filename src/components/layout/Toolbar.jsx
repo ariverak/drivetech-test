@@ -14,6 +14,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleThemeMode } from 'store/actions/ui'
 
 const useStyles = makeStyles(theme => ({
+    appBar: {
+        zIndex: 500
+    },
 	toolbar: {
 		justifyContent: 'space-between',
 		'& h1': {
@@ -41,7 +44,7 @@ export default function Toolbar(){
     }
 
     return (
-        <AppBar>
+        <AppBar className={classes.appBar}>
             <MuiToolbar className={classes.toolbar}>
                 <Typography variant="overline" component="h1">
                     Coding Test

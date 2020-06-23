@@ -2,11 +2,9 @@
 import { GET_PHOTOS, GET_MORE_PHOTOS } from 'constants/actionTypes';
   
 const initialState = {
-  photos: {
-    total: 0,
-    total_pages: 0,
-    results: [],
-  }
+  total: 0,
+  total_pages: 0,
+  results: []
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -14,16 +12,13 @@ export default (state = initialState, { type, payload }) => {
     case GET_PHOTOS:
       return {
         ...state,
-        photos: Object.assign({},payload)
-      };
+        ...payload
+      }
     case GET_MORE_PHOTOS:
       return {
-        ...state,
-        photos: {
-          ...payload,
-          results: [...state.photos.results, ...payload.results ]
-        }
-      };
+          ...state,
+          results: [...state.results, ...payload.results ]
+        };
     default:
       return state;
   }

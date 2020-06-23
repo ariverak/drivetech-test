@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +14,9 @@ const useStyles = makeStyles(theme => ({
 		width: '100%',
 		maxWidth: 720,
 		margin: '25px 0',
+		[theme.breakpoints.down('sm')]: {
+			maxWidth: 460
+		},
 		[theme.breakpoints.down('xs')]: {
 			maxWidth: 300
 		}
@@ -31,13 +34,13 @@ export default function Home(){
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const [ currentPage, setCurrentPage ] = useState(1)
-	const { photos } = useSelector(state => state.photos)
+	const photos = useSelector(state => state.photos.results)
 	const [ searchText, setSearchText ] = useState('')
 
 	const [ searchTextDebounsed ] = useDebounce(searchText, 1500);
 
 	useBottomScrollListener(()=>{
-        setCurrentPage(currentPage + 1)
+        nextPage()
     });
 
 	useEffect(()=>{
@@ -46,12 +49,10 @@ export default function Home(){
 		}
 	},[ dispatch, searchTextDebounsed ])
 
-	useEffect(()=>{
-		if(currentPage !== 1){
-			dispatch(getMorePhotos(searchTextDebounsed, currentPage))
-		}
-	},[ dispatch, searchTextDebounsed, currentPage ])
-
+	const nextPage = () => {
+		setCurrentPage(currentPage + 1)
+		return dispatch(getMorePhotos(searchTextDebounsed, currentPage + 1))
+	}
 
 	return (
 		<Layout>
@@ -64,7 +65,10 @@ export default function Home(){
 						className={classes.search}
 						onCancelSearch={()=>setSearchText('')}
 					/>
-					<Results photos={photos} />
+					<Results 
+						photos={photos}
+						nextPage={nextPage}
+					/>
 				</Grid>
 			</div>
 		</Layout>
