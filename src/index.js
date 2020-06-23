@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Page from './pages';
+import Home from './pages/Home';
 import { Provider } from 'react-redux';
 import store from 'store';
+import AppTheme from "theme";
 import * as serviceWorker from './serviceWorker';
 import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Page />
+      <AppTheme>
+        <Home />
+      </AppTheme>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
