@@ -1,7 +1,7 @@
-import { GET_ALL_PHOTOS } from 'constants/actionTypes';
+import { GET_PHOTOS, GET_MORE_PHOTOS } from 'constants/actionTypes';
 import unsplash from 'services/unsplash';
 
-export function getAllPhotos(query) {
+export function getPhotos(query) {
     return async (dispatch) => {
         const { data } = await unsplash.get('search/photos',{
             params: {
@@ -9,7 +9,22 @@ export function getAllPhotos(query) {
             }
         })
         dispatch({
-            type: GET_ALL_PHOTOS,
+            type: GET_PHOTOS,
+            payload: data
+        });
+    };
+}
+
+export function getMorePhotos(query,page) {
+    return async (dispatch) => {
+        const { data } = await unsplash.get('search/photos',{
+            params: {
+                query,
+                page
+            }
+        })
+        dispatch({
+            type: GET_MORE_PHOTOS,
             payload: data
         });
     };

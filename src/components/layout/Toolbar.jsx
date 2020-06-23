@@ -6,6 +6,10 @@ import {
 	Switch
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { 
+    WbSunnyOutlined as SunnyIcon,
+    Brightness3Outlined as BrightnessIcon
+} from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleThemeMode } from 'store/actions/ui'
 
@@ -15,7 +19,10 @@ const useStyles = makeStyles(theme => ({
 		'& h1': {
 			fontWeight: 'bold',
 			fontSize: 18
-		}
+        },
+        '& svg': {
+            fontSize: 18
+        }
 	},
 	switchContainer: {
 		display: 'flex',
@@ -40,13 +47,9 @@ export default function Toolbar(){
                     Coding Test
                 </Typography>
                 <div className={classes.switchContainer}>
-                    <Typography variant="caption">
-                        LIGHT
-                    </Typography>
+                    <SunnyIcon />
                     <Switch checked={isDark} onChange={switchMode} />
-                    <Typography  variant="caption">
-                        DARK
-                    </Typography>
+                    <BrightnessIcon />
                 </div>
             </MuiToolbar>
         </AppBar>

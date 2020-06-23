@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { 
-	Grid,
-	Container
-} from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { getAllPhotos } from 'store/actions/photos';
+import { getPhotos, getMorePhotos } from 'store/actions/photos';
+import { useDebounce } from 'use-debounce';
 import SearchBar from 'material-ui-search-bar'
 import Layout from 'components/layout'
 import Results from 'components/home/Results'
@@ -14,7 +12,10 @@ const useStyles = makeStyles(theme => ({
 	search: {
 		width: '100%',
 		maxWidth: 720,
-		margin: '25px 0'
+		margin: '25px 0',
+		[theme.breakpoints.down('xs')]: {
+			maxWidth: 300
+		}
 	},
 	content: {
 		marginTop: 64,
@@ -28,27 +29,40 @@ const useStyles = makeStyles(theme => ({
 export default function Home(){
 	const dispatch = useDispatch();
 	const classes = useStyles();
+	const [ currentPage, setCurrentPage ] = useState(1)
 	const { photos } = useSelector(state => state.photos)
 	const [ searchText, setSearchText ] = useState('')
 
+	const [ searchTextDebounsed ] = useDebounce(searchText, 1500);
+
 	useEffect(()=>{
-		console.log(photos,searchText)
-	},[ photos, searchText ])
+		if(searchTextDebounsed){
+			dispatch(getPhotos(searchTextDebounsed))
+		}
+	},[ dispatch, searchTextDebounsed ])
+
+	useEffect(()=>{
+		if(currentPage !== 1){
+			dispatch(getMorePhotos(searchTextDebounsed, currentPage))
+		}
+	},[ dispatch, searchTextDebounsed, currentPage ])
+
 
 	return (
 		<Layout>
-			<Container className={classes.content}>
+			<div className={classes.content}>
 				<Grid container direction="column" alignItems="center" className={classes.root}>
 					<SearchBar
 						value={searchText}
+						placeholder="Buscar"
 						onChange={setSearchText}
 						className={classes.search}
-						// onRequestSearch={() => doSomethingWith(this.state.value)}
+						onCancelSearch={()=>setSearchText('')}
 					/>
-					<button onClick={()=>dispatch(getAllPhotos('cats'))}>Fetch</button>
 					<Results photos={photos} />
+					<button onClick={()=>setCurrentPage(currentPage + 1)}>Fetch more</button>
 				</Grid>
-			</Container>
+			</div>
 		</Layout>
 	)
 }
