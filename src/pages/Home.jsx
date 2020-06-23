@@ -4,6 +4,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { getPhotos, getMorePhotos } from 'store/actions/photos';
 import { useDebounce } from 'use-debounce';
+import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 import SearchBar from 'material-ui-search-bar'
 import Layout from 'components/layout'
 import Results from 'components/home/Results'
@@ -35,6 +36,10 @@ export default function Home(){
 
 	const [ searchTextDebounsed ] = useDebounce(searchText, 1500);
 
+	useBottomScrollListener(()=>{
+        setCurrentPage(currentPage + 1)
+    });
+
 	useEffect(()=>{
 		if(searchTextDebounsed){
 			dispatch(getPhotos(searchTextDebounsed))
@@ -60,7 +65,6 @@ export default function Home(){
 						onCancelSearch={()=>setSearchText('')}
 					/>
 					<Results photos={photos} />
-					<button onClick={()=>setCurrentPage(currentPage + 1)}>Fetch more</button>
 				</Grid>
 			</div>
 		</Layout>
