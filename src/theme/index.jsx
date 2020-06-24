@@ -7,10 +7,10 @@ import { useSelector } from 'react-redux';
 
 export default function AppTheme({ children }){
 
-    const { ui } = useSelector(state=>state.ui);
+    const mode = useSelector(state=>state.ui.mode);
 
     const theme = useMemo(()=>createMuiTheme({
-        palette: ui.mode === 'light' ? {
+        palette: mode === 'light' ? {
             type: "light",
             primary: {
                 main: '#4a148c'
@@ -27,7 +27,7 @@ export default function AppTheme({ children }){
                 main: '#d84315'
             }
         }
-    }),[ui.mode]);
+    }),[mode]);
 
     return (
         <ThemeProvider theme={theme}>

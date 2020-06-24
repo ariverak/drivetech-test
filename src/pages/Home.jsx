@@ -33,6 +33,7 @@ const useStyles = makeStyles(theme => ({
 export default function Home(){
 	const dispatch = useDispatch();
 	const classes = useStyles();
+	const [ isLoading, setIsLoading ] = useState(false)
 	const [ currentPage, setCurrentPage ] = useState(1)
 	const photos = useSelector(state => state.photos.results)
 	const [ searchText, setSearchText ] = useState('')
@@ -44,9 +45,14 @@ export default function Home(){
     });
 
 	useEffect(()=>{
-		if(searchTextDebounsed){
-			dispatch(getPhotos(searchTextDebounsed))
+		async function fetchPhotos(){
+			if(searchTextDebounsed){
+				setIsLoading(true)
+				await dispatch(getPhotos(searchTextDebounsed))
+				setIsLoading(false)
+			}
 		}
+		fetchPhotos()
 	},[ dispatch, searchTextDebounsed ])
 
 	const nextPage = () => {
@@ -58,7 +64,7 @@ export default function Home(){
 	}
 
 	return (
-		<Layout>
+		<Layout loading={isLoading}>
 			<div className={classes.content}>
 				<Grid container direction="column" alignItems="center" className={classes.root}>
 					<SearchBar

@@ -18,6 +18,9 @@ const useStyles = makeStyles(theme => ({
             padding: '15px 0',
             margin: 10,
             cursor: 'pointer',
+            '&:hover': {
+                filter: 'brightness(1.1)'
+            },
             [theme.breakpoints.down('xs')]: {
                 height: 'auto',
                 maxWidth: 'calc(100vw - 20px)'
@@ -102,6 +105,7 @@ function Results({ photos, nextPage, scrollPosition }){
                             </Typography>
                         </Grid>
                     }
+                    clickOutsideToClose={false}
                     imageCaption={photos[photoIndex].alt_description}
                     onMovePrevRequest={() => 
                         setPhotoIndex((photoIndex + photos.length - 1) % photos.length)

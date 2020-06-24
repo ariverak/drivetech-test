@@ -8,7 +8,7 @@ export function getPhotos(query) {
                 query
             }
         })
-        dispatch({
+        return dispatch({
             type: GET_PHOTOS,
             payload: data
         });

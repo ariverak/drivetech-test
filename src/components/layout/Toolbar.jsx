@@ -35,9 +35,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function Toolbar(){
     const classes = useStyles();
-    const { ui } = useSelector(state=>state.ui);
+    const mode = useSelector(state=>state.ui.mode);
     const dispatch = useDispatch();
-    const isDark = useMemo(()=>ui.mode === 'dark',[ui.mode])
+    const isDark = useMemo(()=>mode === 'dark',[mode])
 
     function switchMode(){
         dispatch(toggleThemeMode())
