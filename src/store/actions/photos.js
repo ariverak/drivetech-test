@@ -1,4 +1,4 @@
-import { GET_PHOTOS, GET_MORE_PHOTOS } from 'constants/actionTypes';
+import { GET_PHOTOS, GET_MORE_PHOTOS, RESET_PHOTOS } from 'constants/actionTypes';
 import unsplash from 'services/unsplash';
 
 export function getPhotos(query) {
@@ -26,6 +26,15 @@ export function getMorePhotos(query,page) {
         return dispatch({
             type: GET_MORE_PHOTOS,
             payload: data
+        });
+    };
+}
+
+export function resetPhotos() {
+    return async (dispatch) => {
+        return dispatch({
+            type: RESET_PHOTOS,
+            payload: []
         });
     };
 }

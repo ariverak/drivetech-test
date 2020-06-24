@@ -1,8 +1,8 @@
 import React from 'react';
 import Toolbar from './Toolbar'
 import { Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import ClipLoader from "react-spinners/ClipLoader";
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import MoonLoader from "react-spinners/MoonLoader";
 
 const useStyles = makeStyles(theme => ({
     loading: {
@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Layout({ children, loading }){
     const classes = useStyles()
+    const theme = useTheme()
     return (
         <>
             <Toolbar />
@@ -30,9 +31,9 @@ export default function Layout({ children, loading }){
                     alignItems="center"
                     className={classes.loading}
                 >
-                    <ClipLoader
-                        size={150}
-                        color={"#123abc"}
+                    <MoonLoader
+                        size={100}
+                        color={theme.palette.secondary.main}
                         loading={true}
                     />
                 </Grid>

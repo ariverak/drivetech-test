@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { getPhotos, getMorePhotos } from 'store/actions/photos';
+import { getPhotos, getMorePhotos, resetPhotos } from 'store/actions/photos';
 import { useDebounce } from 'use-debounce';
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 import SearchBar from 'material-ui-search-bar'
@@ -38,7 +38,7 @@ export default function Home(){
 	const photos = useSelector(state => state.photos.results)
 	const [ searchText, setSearchText ] = useState('')
 
-	const [ searchTextDebounsed ] = useDebounce(searchText, 1500);
+	const [ searchTextDebounsed ] = useDebounce(searchText, 1000);
 
 	useBottomScrollListener(()=>{
         nextPage()
@@ -52,7 +52,11 @@ export default function Home(){
 				setIsLoading(false)
 			}
 		}
+		if(photos.length && !searchTextDebounsed){
+			dispatch(resetPhotos())
+		}
 		fetchPhotos()
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[ dispatch, searchTextDebounsed ])
 
 	const nextPage = () => {

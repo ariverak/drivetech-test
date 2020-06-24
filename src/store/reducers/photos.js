@@ -1,5 +1,5 @@
 
-import { GET_PHOTOS, GET_MORE_PHOTOS } from 'constants/actionTypes';
+import { GET_PHOTOS, GET_MORE_PHOTOS, RESET_PHOTOS } from 'constants/actionTypes';
   
 const initialState = {
   total: 0,
@@ -18,6 +18,11 @@ export default (state = initialState, { type, payload }) => {
       return {
           ...state,
           results: [...state.results, ...payload.results ]
+        };
+    case RESET_PHOTOS:
+      return {
+          ...state,
+          ...initialState
         };
     default:
       return state;
