@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export default function Layout({ children, loading }){
+function Layout({ children, loading }){
     const classes = useStyles()
     const theme = useTheme()
     return (
@@ -41,3 +41,5 @@ export default function Layout({ children, loading }){
         </>
     )
 }
+
+export default Layout;

@@ -1,8 +1,12 @@
 
 import { TOGGLE_THEME_MODE } from 'constants/actionTypes';
   
-const initialState = {
-  mode: localStorage.getItem('theme') === 'dark' ? 'dark' : 'light'
+export function getTheme(){
+  return localStorage.getItem('theme') === 'dark' ? 'dark' : 'light'
+}
+
+export const initialState = {
+  mode: getTheme()
 }
 
 export default (state = initialState, { type }) => {
